@@ -1,0 +1,2 @@
+C:\Users\Owner\Documents\BrickFileSync\BrickFileSync\bin\Debug\BrickFileSync.exe.config
+C:\Users\Owner\Documents\BrickFileSync\BrickFileSync\obj\Debug\BrickFileSync.csprojResolveAssemblyReference.cache
