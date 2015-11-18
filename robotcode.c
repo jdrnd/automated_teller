@@ -1,8 +1,33 @@
-struct account {
+struct Account 
+{
  	string cardNum;
 	string pin;
   float balance;
 } ;
+
+/*
+0 = $1
+1 = $5
+2 = $10
+3 = $20
+4 = $100
+*/
+struct BillsToOutput
+{
+	int number[5];
+};
+
+//Russel Wong
+//Tested
+void billsToOutput(int amount, BillsToOutput & bills)
+{
+	int denominations[5] = {1, 5, 10, 20, 100};
+	for (int i = 4; i >= 0; i--)
+	{
+		bills.number[i] = amount / denominations[i];
+		amount -= denominations[i]*bills.number[i];
+	}
+}
 
 
 bool intake ()
@@ -15,12 +40,15 @@ bool output()
 float getBalance()
 {}
 
+
+
+//Joel Ruhland
+//Fully Tested
 int getAmount()
 {
         char amount[3] = {'0','0','0'};
         int i = 0;
-
-
+        
         while (!getButtonPress(buttonEnter))
         {
                 char pointer[3] = {' ',' ',' '};
@@ -75,13 +103,19 @@ int getAmount()
         int a0 = amount[0] - '0';
         int a1 = amount[1] - '0';
         int a2 = amount[2] - '0';
+        eraseDisplay();
         return (a0*100+a1*10+a2);
 }
 
 
+int accountExists(int cardvalue, Account & account)
+{
+
+}
+
 task main()
-{				int amount = getAmount();
-				eraseDisplay();
-        displayString(0,"%i", amount);
-        wait1Msec(2000);
+{				
+		BillsToOutput bills;
+		Account account[10];
+		wait1Msec(4000);
 }
