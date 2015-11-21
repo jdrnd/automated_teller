@@ -122,10 +122,6 @@ void billsToOutput(int amount, BillsToOutput & bills)
 }
 
 
-bool intake ()
-{
-}
-
 bool output()
 {}
 
@@ -201,7 +197,7 @@ int getAmount()
 
 int getBill()
 {
-	//Pulls in bill, reads color value, and returns value
+	while //Pulls in bill, reads color value, and returns value of bill
 	return 0;
 }
 
@@ -213,10 +209,8 @@ int doDeposit()
 	{
 		ammounttodeposit +=getBill();
 	}
-	return ammounttodeposit
+	return ammounttodeposit;
 
-
-	return ammounttodeposit
 }
 
 void doOutput(int bill, int number)
