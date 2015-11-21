@@ -2,6 +2,14 @@
 
 const int NUMACCOUNTS = 10;
 
+/*
+Bills:
+1 - White
+5 - Blue
+10 - Yellow
+20 - Green
+100 - Red
+*/
 
 
 struct BillsToOutput
@@ -109,7 +117,7 @@ bool checkPin(Account * accountList)
 
 
 
-//Russel Wong
+//Russell Wong
 //Tested
 void billsToOutput(int amount, BillsToOutput & bills)
 {
@@ -213,9 +221,32 @@ int doDeposit()
 
 }
 
-void doOutput(int bill, int number)
+//Russell Wong
+void doOutput(int bill, int number, BillsToOutput & bills)
 {
 	//Move to location and output number of bills
+	motor[motorA] = 50; //tray motor
+	motor[motorB] = -50;  //bill dispenser motor
+	motor[motorC] = 50; //bottom wheel motor
+	const float TRAY_DIST = 6.0325 * 180 / (PI * 1.5); 
+		
+	
+	int colors[5] = {6, 2, 4, 3, 5}; //White Blue Yellow Green Red
+	
+	delay(3000); //move tray to the very end
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < bills.number[i]; j++)
+		{
+			while (SensorValue[S1] != colors[i]) //for a colour sensor attached to S1
+			{}
+			delay(300);
+		}
+		motor[motorA] = -50;
+		nMotorEncoder[motorA] = 0;
+		while (nMotorEncoder[motorA] < TRAY_DIST)
+		{}
+	}
 }
 
 int doWithdraw(Account accountList)
