@@ -15,7 +15,7 @@ struct Account
 
 void initAccounts(Account * accounts, int num)
 {
-		accounts[0].cardNum = 4625;
+		accounts[0].cardNum = 3572;
 		accounts[0].pin = 6969;
 		accounts[0].balance = 120;
 

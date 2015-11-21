@@ -1,7 +1,7 @@
 
 task main()
 {
-	motor[motorA] = -100;
+	motor[motorA] = -75;
 	wait1Msec(10000);
 
 
