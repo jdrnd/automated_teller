@@ -8,6 +8,14 @@
 
 const int NUMACCOUNTS = 10;
 
+/*
+Bills:
+1 - White
+5 - Blue
+10 - Yellow
+20 - Green
+100 - Red
+*/
 
 
 struct BillsToOutput
@@ -138,26 +146,24 @@ bool checkPin(Account * accountList)
         return comparePin(pinvalue, accountList);
 }
 
-//Russel Wong
+
+//Russell Wong
 //Tested
-void billsToOutput(int amount, BillsToOutput & bills)
+//Changed to use pointers (should re-test)
+void billsToOutput(int amount, int * bills)
 {
 	int denominations[5] = {1, 5, 10, 20, 100};
 	for (int i = 4; i >= 0; i--)
 	{
-		bills.number[i] = amount / denominations[i];
-		amount -= denominations[i]*bills.number[i];
+		bills[i] = amount / denominations[i];
+		amount -= denominations[i]*bills[i];
 	}
 }
 
-
-bool output()
-{}
-
-float getBalance()
-{}
-
-
+float Account::getBalance()
+{
+	return balance;
+}
 
 //Joel Ruhland
 //Fully Tested
@@ -224,10 +230,27 @@ int getAmount()
         return (a0*100+a1*10+a2);
 }
 
+//Russell Wong
 int getBill()
 {
-	//Pulls in bill, reads color value, and returns value of bill
-	return 0;
+	while (SensorValue[ColorBill] == 1)
+	{}
+	delay(100);
+	int curr_bill = SensorValue [ColorBill];
+
+	//convert colour to bill value
+	if (curr_bill == 6) //white
+		curr_bill = 1;
+	else if (curr_bill == 2) //blue
+		curr_bill = 5;
+	else if (curr_bill == 4) //yellow
+		curr_bill = 10;
+	else if (curr_bill == 3) //green
+		curr_bill = 20;
+	else			 //red
+		curr_bill = 100;
+
+	return curr_bill;
 }
 
 int doDeposit()
@@ -242,9 +265,32 @@ int doDeposit()
 
 }
 
-void doOutput(int bill, int number)
+//Russell Wong
+void doOutput(int * bills)
 {
 	//Move to location and output number of bills
+	motor[motorA] = 50; //tray motor
+	motor[motorB] = -50;  //bill dispenser motor
+	motor[motorC] = 50; //bottom wheel motor
+	const float TRAY_DIST = 6.0325 * 180 / (PI * 1.5);
+
+
+	int colors[5] = {6, 2, 4, 3, 5}; //White Blue Yellow Green Red
+
+	delay(3000); //move tray to the very end
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < bills[i]; j++)
+		{
+			while (SensorValue[S1] != colors[i]) //for a colour sensor attached to S1
+			{}
+			delay(300);
+		}
+		motor[motorA] = -50;
+		nMotorEncoder[motorA] = 0;
+		while (nMotorEncoder[motorA] < TRAY_DIST)
+		{}
+	}
 }
 
 int doWithdraw(Account accountList)
