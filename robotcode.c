@@ -119,24 +119,21 @@ bool checkPin(Account * accountList)
 
 //Russell Wong
 //Tested
-void billsToOutput(int amount, BillsToOutput & bills)
+//Changed to use pointers (should re-test)
+void billsToOutput(int amount, int * bills)
 {
 	int denominations[5] = {1, 5, 10, 20, 100};
 	for (int i = 4; i >= 0; i--)
 	{
-		bills.number[i] = amount / denominations[i];
-		amount -= denominations[i]*bills.number[i];
+		bills[i] = amount / denominations[i];
+		amount -= denominations[i]*bills[i];
 	}
 }
 
-
-bool output()
-{}
-
-float getBalance()
-{}
-
-
+float Account::getBalance()
+{
+	return balance;
+}
 
 //Joel Ruhland
 //Fully Tested
@@ -240,7 +237,7 @@ int doDeposit()
 }
 
 //Russell Wong
-void doOutput(BillsToOutput & bills)
+void doOutput(int * bills)
 {
 	//Move to location and output number of bills
 	motor[motorA] = 50; //tray motor
@@ -254,7 +251,7 @@ void doOutput(BillsToOutput & bills)
 	delay(3000); //move tray to the very end
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < bills.number[i]; j++)
+		for (int j = 0; j < bills[i]; j++)
 		{
 			while (SensorValue[S1] != colors[i]) //for a colour sensor attached to S1
 			{}
