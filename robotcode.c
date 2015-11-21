@@ -222,7 +222,7 @@ int doDeposit()
 }
 
 //Russell Wong
-void doOutput(int bill, int number, BillsToOutput & bills)
+void doOutput(BillsToOutput & bills)
 {
 	//Move to location and output number of bills
 	motor[motorA] = 50; //tray motor
