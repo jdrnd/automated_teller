@@ -235,15 +235,15 @@ int getAmount()
 int getBill()
 {
 	//Pulls in until color change is detectted, then continues for 1/5
-	motor[motorA] = -75;
-	while (SensorValue[ColorBill] == 1)
+	motor[motorA] = 30;
+	while (SensorValue[colorBill] == 1)
 	{}
 	wait1Msec(200);
 
 	//Stops motor, waits, and takes color reading
 	motor[motorA] = 0;
 	wait1Msec(500);
-	int curr_bill = SensorValue [ColorBill];
+	int curr_bill = SensorValue[S3];
 
 	//convert colour to bill value
 	if (curr_bill == 6) //white
@@ -264,7 +264,7 @@ int doDeposit()
 {
 	int ammounttodeposit;
 	eraseDisplay();
-	DisplayString(0, "Press center button to exit");
+	displayString(0, "Press center button to exit");
 	while (!getButtonPress(buttonEnter))
 	{
 		ammounttodeposit +=getBill();
