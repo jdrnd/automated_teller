@@ -233,6 +233,7 @@ int getAmount()
 //Russell Wong
 int getBill()
 {
+
 	while (SensorValue[ColorBill] == 1)
 	{}
 	delay(100);
@@ -272,10 +273,12 @@ void doOutput(int * bills)
 	motor[motorA] = 50; //tray motor
 	motor[motorB] = -50;  //bill dispenser motor
 	motor[motorC] = 50; //bottom wheel motor
+
 	const float TRAY_DIST = 6.0325 * 180 / (PI * 1.5);
 
 
 	int colors[5] = {6, 2, 4, 3, 5}; //White Blue Yellow Green Red
+
 
 	delay(3000); //move tray to the very end
 	for (int i = 0; i < 4; i++)
