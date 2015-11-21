@@ -203,10 +203,28 @@ int getAmount()
         return (a0*100+a1*10+a2);
 }
 
+//Russell Wong
 int getBill()
 {
-	while //Pulls in bill, reads color value, and returns value of bill
-	return 0;
+	//Pulls in bill, reads color value, and returns value of bill
+	while (SensorValue[ColorBill] == 1)
+	{}
+	delay(100);
+	int curr_bill = SensorValue [ColorBill];
+	
+	//convert colour to bill value
+	if (curr_bill == 6) //white
+		curr_bill = 1;
+	else if (curr_bill == 2) //blue
+		curr_bill = 5;
+	else if (curr_bill == 4) //yellow
+		curr_bill = 10;
+	else if (curr_bill == 3) //green
+		curr_bill = 20;
+	else			 //red
+		curr_bill = 100;
+	
+	return curr_bill;
 }
 
 int doDeposit()
