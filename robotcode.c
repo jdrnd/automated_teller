@@ -8,6 +8,10 @@
 
 const int NUMACCOUNTS = 10;
 
+int const START_NUM_BILLS = 50;
+//-----------------{1 ,5 ,10,20,100}
+int numOfBills[] = {START_NUM_BILLS,START_NUM_BILLS,START_NUM_BILLS,START_NUM_BILLS,START_NUM_BILLS};
+
 /*
 Bills:
 1 - White
@@ -150,20 +154,17 @@ bool checkPin(Account * accountList)
 //Russell Wong
 //Tested
 //Changed to use pointers (should re-test)
-void billsToOutput(int amount, int * bills)
+void billsToOutput(int amount, BillsToOutput bills)
 {
 	int denominations[5] = {1, 5, 10, 20, 100};
 	for (int i = 4; i >= 0; i--)
 	{
-		bills[i] = amount / denominations[i];
-		amount -= denominations[i]*bills[i];
+		bills.number[i] = amount / denominations[i];
+		amount -= denominations[i]*bills.number[i];
 	}
 }
 
-float Account::getBalance()
-{
-	return balance;
-}
+
 
 //Joel Ruhland
 //Fully Tested
@@ -267,7 +268,7 @@ int doDeposit()
 }
 
 //Russell Wong
-void doOutput(int * bills)
+void doOutput(int position, int numbills)
 {
 	//Move to location and output number of bills
 	motor[motorA] = 50; //tray motor
@@ -283,7 +284,7 @@ void doOutput(int * bills)
 	delay(3000); //move tray to the very end
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < bills[i]; j++)
+		for (int j = 0; j < numbills; j++)
 		{
 			while (SensorValue[S1] != colors[i]) //for a colour sensor attached to S1
 			{}
@@ -332,6 +333,7 @@ task main()
 
 		while (getBatteryCurrent() > 0.02)
 		{
+			/*
 			displayString(0,"Swipe card to Begin");
 			do
 			{
@@ -345,12 +347,12 @@ task main()
 			{
 				pinCorrect = checkPin(accountList);
 				displayString(0,"ERROR Incorrect PIN");
-			}while (pinCorrect == false);
+			}while (pinCorrect == false);*/
 
 			//Selection Menu
 			eraseDisplay();
-			displayString(0,"Press Left to Deposit, Right to Withdraw");
-			displayString(3,"Deposit                       Withdraw");
+			displayString(2,"<----                   ---->");
+			displayString(3,"Deposit             Withdraw");
 
 			waitForButtonPress();
 
