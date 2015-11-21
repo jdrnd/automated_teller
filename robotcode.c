@@ -234,10 +234,15 @@ int getAmount()
 //Russell Wong
 int getBill()
 {
-
+	//Pulls in until color change is detectted, then continues for 1/5
+	motor[motorA] = -75;
 	while (SensorValue[ColorBill] == 1)
 	{}
-	delay(100);
+	wait1Msec(200);
+
+	//Stops motor, waits, and takes color reading
+	motor[motorA] = 0;
+	wait1Msec(500);
 	int curr_bill = SensorValue [ColorBill];
 
 	//convert colour to bill value
@@ -258,12 +263,16 @@ int getBill()
 int doDeposit()
 {
 	int ammounttodeposit;
-
+	eraseDisplay();
+	DisplayString(0, "Press center button to exit");
 	while (!getButtonPress(buttonEnter))
 	{
 		ammounttodeposit +=getBill();
+		eraseDisplay();
+		displayString(0,"%s", ammounttodeposit);
 	}
 	return ammounttodeposit;
+	eraseDisplay();
 
 }
 
@@ -358,7 +367,10 @@ task main()
 
 	    if (getButtonPress(buttonLeft) == 1)
 	    {
-	            accountList[accountindex].balance += doDeposit();
+	    		int amount = doDeposit();
+	        accountList[accountindex].balance += amount;
+					eraseDisplay();
+	        displayString(0,"%i", amount);
 	    }
 	    else if (getButtonPress(buttonRight) ==1)
 	    {
@@ -368,6 +380,8 @@ task main()
 	            	accountList[accountindex].balance -= doWithdraw(accountList[accountindex]);
 	            }
 	    }
+
+	    wait1Msec(5000);
 
 
 		}
