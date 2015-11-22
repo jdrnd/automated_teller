@@ -236,28 +236,26 @@ int getBill()
 {
 	//Pulls in until color change is detectted, then continues for 1/5
 	motor[motorA] = 30;
-	while (SensorValue[colorBill] == 1)
-	{}
+	while (getButtonPress(buttonEnter) != 1)
+	{
+			if (SensorValue[colorBill] == 1)
+				wait1Msec(200);
+			else if (SensorValue[colorBill] ==6) //white
+				return 1;
+			else if (SensorValue[colorBill] == 2) //blue
+				return  5;
+			else if (SensorValue[colorBill] == 4) //yellow
+				return  10;
+			else if (SensorValue[colorBill] == 3) //green
+			return 20;
+			else			 //red
+				return 100;
+	}
 	wait1Msec(200);
 
-	//Stops motor, waits, and takes color reading
-	motor[motorA] = 0;
-	wait1Msec(500);
-	int curr_bill = SensorValue[S3];
+	return -1;
 
-	//convert colour to bill value
-	if (curr_bill == 6) //white
-		curr_bill = 1;
-	else if (curr_bill == 2) //blue
-		curr_bill = 5;
-	else if (curr_bill == 4) //yellow
-		curr_bill = 10;
-	else if (curr_bill == 3) //green
-		curr_bill = 20;
-	else			 //red
-		curr_bill = 100;
 
-	return curr_bill;
 }
 
 int doDeposit()
@@ -338,7 +336,7 @@ task main()
 		string cardnum;
 		string pin;
 		int accountindex;
-		bool pinCorrect = false;
+		bool pinCorrect;
 
 		while (getBatteryCurrent() > 0.02)
 		{
@@ -356,30 +354,37 @@ task main()
 			{
 				pinCorrect = checkPin(accountList);
 				displayString(0,"ERROR Incorrect PIN");
-			}while (pinCorrect == false);*/
+			}while (pinCorrect == false);
+
+			wait1Msec(100);
+			eraseDisplay();
+			wait1Msec(500);*/
 
 			//Selection Menu
-			eraseDisplay();
-			displayString(2,"<----                   ---->");
-			displayString(3,"Deposit             Withdraw");
-
-			waitForButtonPress();
-
-	    if (getButtonPress(buttonLeft) == 1)
-	    {
-	    		int amount = doDeposit();
-	        accountList[accountindex].balance += amount;
+			while (getButtonPress(buttonEnter) != 1)
+			{
 					eraseDisplay();
-	        displayString(0,"%i", amount);
-	    }
-	    else if (getButtonPress(buttonRight) ==1)
-	    {
-	            int amount = doWithdraw(accountList[accountindex]);
-	            if (amount != -1)
-	            {
-	            	accountList[accountindex].balance -= doWithdraw(accountList[accountindex]);
-	            }
-	    }
+					displayString(2,"<----                   ---->");
+					displayString(3,"Deposit             Withdraw");
+
+					waitForButtonPress();
+
+			    if (getButtonPress(buttonLeft) == 1)
+			    {
+			    		int amount = doDeposit();
+			        accountList[accountindex].balance += amount;
+							eraseDisplay();
+			        displayString(0,"%i", amount);
+			    }
+			    else if (getButtonPress(buttonRight) ==1)
+			    {
+			            int amount = doWithdraw(accountList[accountindex]);
+			            if (amount != -1)
+			            {
+			            	accountList[accountindex].balance -= doWithdraw(accountList[accountindex]);
+			            }
+			    }
+		  }
 
 	    wait1Msec(5000);
 
