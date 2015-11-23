@@ -158,13 +158,13 @@ bool checkPin(Account * accountList)
 //Russell Wong
 //Tested
 //Changed to use pointers (should re-test)
-void billsToOutput(int amount, BillsToOutput bills)
+void billsToOutput(int amount, int * bills)
 {
 	int denominations[5] = {1, 5, 10, 20, 100};
 	for (int i = 4; i >= 0; i--)
 	{
-		bills.number[i] = amount / denominations[i];
-		amount -= denominations[i]*bills.number[i];
+		bills[i] = amount / denominations[i];
+		amount -= denominations[i]*bills[i];
 	}
 }
 
@@ -236,6 +236,7 @@ int getAmount()
 }
 
 //Russell Wong
+//Tested
 int getBill()
 {
 	//Pulls in until color change is detected, then continues for 1/5
@@ -262,10 +263,11 @@ int getBill()
 		    	currentIndex = 3;
 		    else if (currentColor == 5)
 		    	currentIndex = 4;
-		    
+
 		    if (currentIndex > -1)
 		    {
 		    	 numEachColor[currentIndex]++;
+		    	 numOfBills[currentIndex]++;
 		    	if (numEachColor[currentIndex] > numEachColor[max])
 		    		max = currentIndex;
 		    }
@@ -284,7 +286,7 @@ int getBill()
 		  displayString(2, "%d", max);
 		  wait1Msec(1000);
 	//}
-	
+
 
 	return billVal;
 
@@ -312,31 +314,35 @@ int doDeposit()
 void doOutput(int * numBills)
 {
 	//Move to location and output number of bills
-	motor[traySlide] = -50; 
-	
+	motor[traySlide] = -50;
+
 	const float TRAY_DIST = 8.1 * 180 / PI ;
 	int colors[5] = {6, 2, 4, 3, 5}; //White Blue Yellow Green Red
 
 
-	while (SensorValue[touchCalibrate] == 0) //move tray to the very end
+	while (SensorValue[touchCalibrate] == 1) //move tray to the very end
   {}
 
-	motor[billReader] = -50;  
-	motor[billOut] = 50; 
+	motor[billReader] = -50;
+	motor[billOut] = 50;
 	for (int i = 0; i < 4; i++)
 	{
-		//lower arm
-	
-	  motor[billOut] = 50; 
+		motor[armWeight] = 20;
+		wait1Msec(2000);
+
+	  motor[billOut] = 50;
 		for (int j = 0; j < numBills[i]; j++)
 		{
-			while (SensorValue[colorBill] != colors[i]) 
+			//may need to do debouncing
+			while (SensorValue[colorBill] != colors[i])
 			{}
+			numOfBills[i]--;
 			delay(300);
 		}
-		
-		//raise arm
-		
+
+		motor[armWeight] = -20;
+		wait1Msec(2000);
+
 		motor[motorA] = 50;
 		nMotorEncoder[motorA] = 0;
 		while (nMotorEncoder[motorA] < TRAY_DIST)
@@ -354,10 +360,10 @@ int doWithdraw(Account accountList)
 		displayString(0,"Error, Insufficient Balance");
 		return -1;
 	}
-	BillsToOutput bills;
+	int bills[5] = {0, 0, 0, 0, 0};
 	billsToOutput(amounttowithdraw, bills);
 
-	doOutput(bills.number);
+	doOutput(bills);
 
 	return amounttowithdraw;
 }
