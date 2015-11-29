@@ -10,7 +10,7 @@ struct Account
 {
  	string cardNum;
 	string pin;
-  int balance;
+  	int balance;
 };
 
 void initAccounts(Account * accounts, int num)
@@ -22,31 +22,6 @@ void initAccounts(Account * accounts, int num)
 		accounts[1].cardNum = 5757;
 		accounts[1].pin = 1234;
 		accounts[1].balance = 500;
-		/*
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		accounts[0].cardNum =
-		accounts[0].pin =
-		accounts[0].balance =
-		*/
+	
+		//Additional accounts can be added here
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
